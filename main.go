@@ -32,7 +32,6 @@ func cut(w io.Writer, input string, keys []string, delimiter rune) error {
 			return err
 		}
 	}
-	fmt.Println("hello")
 	r = csv.NewReader(file)
 	r.Comma = delimiter
 	r.LazyQuotes = true
@@ -89,7 +88,6 @@ func main() {
 	}
 
 	var keys = strings.Split(fields, ",")
-	fmt.Println(keys)
 
 	if delimiter == "\\t" {
 		delimiter = "\t"
