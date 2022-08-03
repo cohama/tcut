@@ -45,7 +45,7 @@ func cut(w io.Writer, input string, keys []string, delimiter rune) error {
 	header := records[0]
 	for i, col := range header {
 		keyMap[col] = i
-}
+	}
 	for _, line := range records {
 		for i, key := range keys {
 			if i != 0 {
@@ -62,8 +62,7 @@ func main() {
 	flag.Usage = usage
 	output := flag.CommandLine.Output()
 
-	var fields string
-	var delimiter string
+	var fields, delimiter string
 	var version, help bool
 
 	flag.StringVar(&fields, "f", "", "specify column name to select only these fields")
@@ -87,16 +86,21 @@ func main() {
 		args = append(args, "-")
 	}
 
-	var keys = strings.Split(fields, ",")
+	keys := strings.Split(fields, ",")
 
 	if delimiter == "\\t" {
 		delimiter = "\t"
+	}
+	if len(delimiter) > 1 {
+		fmt.Fprintln(os.Stderr, "error: -d should be one character or \\t")
+		os.Exit(1)
 	}
 
 	for _, arg := range args {
 		err := cut(os.Stdout, arg, keys, []rune(delimiter)[0])
 		if err != nil {
 			fmt.Fprintln(os.Stderr, err.Error())
+			os.Exit(1)
 		}
 	}
 }
