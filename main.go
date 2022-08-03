@@ -78,7 +78,7 @@ func main() {
 	}
 
 	if version {
-		fmt.Fprintln(output, "1.0.0")
+		fmt.Fprintln(output, "1.0.1")
 		return
 	}
 
